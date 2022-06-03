@@ -76,7 +76,7 @@ public class ReservationForm extends FormLayout {
 
     private void save() {
         Reservation reservation = binder.getBean();
-        service.sendReservation(reservation);
+        service.saveReservation(reservation);
         setReservation(null);
     }
 

@@ -30,7 +30,7 @@ public class ReservationService {
         return reservationService;
     }
 
-    public void sendReservation(Reservation reservation) {
+    public void saveReservation(Reservation reservation) {
         restTemplate = new RestTemplate();
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
