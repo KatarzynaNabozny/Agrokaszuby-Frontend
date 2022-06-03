@@ -1,5 +1,6 @@
 package com.agrokaszuby.front.agrokaszubyfront.domain;
 
+import com.agrokaszuby.front.agrokaszubyfront.service.ReservationService;
 import com.agrokaszuby.front.agrokaszubyfront.view.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -15,6 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
 public class ReservationForm extends FormLayout {
+
+    private ReservationService service = ReservationService.getInstance();
 
     private MainView mainView;
     private DateTimePicker startDate;
@@ -34,6 +37,7 @@ public class ReservationForm extends FormLayout {
 
     private Binder<Reservation> binder = new Binder<>(Reservation.class);
 
+
     public ReservationForm(MainView mainView) {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
@@ -48,7 +52,7 @@ public class ReservationForm extends FormLayout {
         this.mainView = mainView;
 
         save.addClickListener(event -> save());
-//        delete.addClickListener(event -> delete());
+        delete.addClickListener(event -> delete());
     }
 
     private DateTimePicker getDateTimePicker(String caption) {
@@ -72,13 +76,13 @@ public class ReservationForm extends FormLayout {
 
     private void save() {
         Reservation reservation = binder.getBean();
-//        service.save(reservation);
+        service.sendReservation(reservation);
         setReservation(null);
     }
 
     private void delete() {
         Reservation reservation = binder.getBean();
-//        service.delete(reservation);
+        service.delete(reservation);
         setReservation(null);
     }
 

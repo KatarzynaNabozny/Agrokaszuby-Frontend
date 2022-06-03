@@ -15,7 +15,6 @@ public class BookService {
 
     private Set<Book> books;
     private static BookService bookService;
-    private Binder<Book> binder = new Binder<Book>(Book.class);
 
     private BookService() {
         this.books = exampleData();

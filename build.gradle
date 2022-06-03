@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.agrokaszuby.front'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '16'
+sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -23,7 +23,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools:2.7.0'
 	implementation 'com.vaadin:vaadin-maven-plugin:23.0.10'
 	implementation 'com.vaadin:vaadin-server:8.15.2'
-	compileOnly 'org.projectlombok:lombok:1.18.24'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+//	implementation 'org.json:json:20220320'
+
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.3'
+	implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.3'
+
 }
 
 dependencyManagement {
