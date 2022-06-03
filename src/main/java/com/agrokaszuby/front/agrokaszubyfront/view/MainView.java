@@ -3,7 +3,6 @@ package com.agrokaszuby.front.agrokaszubyfront.view;
 import com.agrokaszuby.front.agrokaszubyfront.domain.Reservation;
 import com.agrokaszuby.front.agrokaszubyfront.domain.ReservationForm;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -25,7 +24,6 @@ public class MainView extends VerticalLayout {
         add(toolbar, mainContent);
         form.setReservation(null);
         setSizeFull();
-
     }
 
 }
