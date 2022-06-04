@@ -17,7 +17,7 @@ public class ReservationService {
     private static ReservationService reservationService;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
-    private final String createReservationUrl = "http://localhost:8090/agrokaszuby/backend";
+    private final String createReservationUrl = "http://localhost:8090/agrokaszuby/backend/reservation";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private ReservationService() {
