@@ -1,6 +1,7 @@
 package com.agrokaszuby.front.agrokaszubyfront.domain;
 
 import com.agrokaszuby.front.agrokaszubyfront.service.ReservationService;
+import com.agrokaszuby.front.agrokaszubyfront.service.WeatherService;
 import com.agrokaszuby.front.agrokaszubyfront.view.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -18,6 +19,7 @@ import java.time.temporal.TemporalAdjusters;
 public class ReservationForm extends FormLayout {
 
     private ReservationService service = ReservationService.getInstance();
+    private WeatherService weatherservice = WeatherService.getInstance();
 
     private MainView mainView;
     private DateTimePicker startDate;
@@ -94,6 +96,5 @@ public class ReservationForm extends FormLayout {
             setVisible(true);
             firstName.focus();
         }
-
     }
 }

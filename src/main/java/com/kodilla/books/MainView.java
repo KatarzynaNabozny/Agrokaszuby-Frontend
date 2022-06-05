@@ -32,8 +32,8 @@ public class MainView extends VerticalLayout {
             form.setBook(new Book());
         });
         HorizontalLayout toolbar = new HorizontalLayout(filter, addNewBook);
-
         HorizontalLayout mainContent = new HorizontalLayout(grid, form);
+
         mainContent.setSizeFull();
         grid.setSizeFull();
 
