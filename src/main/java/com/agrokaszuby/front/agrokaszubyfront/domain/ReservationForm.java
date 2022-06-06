@@ -67,6 +67,11 @@ public class ReservationForm extends FormLayout {
                 city, postalCode, street, email, currency, price, buttons);
         setSizeFull();
 
+        startDate.setRequiredIndicatorVisible(true);
+        endDate.setRequiredIndicatorVisible(true);
+        email.setRequired(true);
+        currency.setRequired(true);
+
         binder.bindInstanceFields(this);
         this.mainView = mainView;
 
@@ -98,17 +103,25 @@ public class ReservationForm extends FormLayout {
 
     private void save() {
         Reservation reservation = binder.getBean();
-        service.saveReservation(reservation);
-        setReservation(null);
+        if (reservation.getStartDate() != null &&
+                reservation.getEndDate() != null &&
+                reservation.getEmail() != null &&
+                reservation.getCurrency() != null &&
+                reservation.getPrice() != null) {
+            service.saveReservation(reservation);
+            setReservation(null);
+        }
     }
 
     private void updatePriceIfNeeded() {
         Reservation reservation = binder.getBean();
-        Currency currency = reservation.getCurrency();
-        LocalDateTime startDate = reservation.getStartDate();
-        LocalDateTime endDate = reservation.getEndDate();
-        if (currency != null && startDate != null && endDate != null) {
-            updatePrice(reservation);
+        if (reservation != null) {
+            Currency currency = reservation.getCurrency();
+            LocalDateTime startDate = reservation.getStartDate();
+            LocalDateTime endDate = reservation.getEndDate();
+            if (currency != null && startDate != null && endDate != null) {
+                updatePrice(reservation);
+            }
         }
     }
 

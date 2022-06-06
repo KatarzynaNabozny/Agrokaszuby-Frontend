@@ -11,13 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ReservationService {
 
     private static ReservationService reservationService;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
-    private final String createReservationUrl = "http://localhost:8090/agrokaszuby/backend/reservation";
+    private final String reservationUrl = "http://localhost:8090/agrokaszuby/backend/reservation";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private ReservationService() {
@@ -46,12 +48,27 @@ public class ReservationService {
         HttpEntity<String> request = new HttpEntity<>(reservationInString, headers);
         ResponseEntity<Reservation> reservationResponseEntity = null;
         try {
-            reservationResponseEntity = restTemplate.postForEntity(createReservationUrl, request, Reservation.class);
+            reservationResponseEntity = restTemplate.postForEntity(reservationUrl, request, Reservation.class);
         } catch (RestClientException e) {
             e.printStackTrace();
         }
     }
 
     public void delete(Reservation reservation) {
+        if (reservation != null) {
+            String email = reservation.getEmail();
+            LocalDateTime startDate = reservation.getStartDate();
+            LocalDateTime endDate = reservation.getEndDate();
+
+            if (email != null && startDate != null && endDate != null) {
+                restTemplate = new RestTemplate();
+                try {
+                    String deleteUrl = reservationUrl + "?email=" + email + "&startDate=" + startDate + "&endDate=" + endDate;
+                    restTemplate.delete(deleteUrl);
+                } catch (RestClientException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

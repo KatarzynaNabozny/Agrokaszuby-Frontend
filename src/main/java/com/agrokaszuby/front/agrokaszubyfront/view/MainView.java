@@ -2,6 +2,7 @@ package com.agrokaszuby.front.agrokaszubyfront.view;
 
 import com.agrokaszuby.front.agrokaszubyfront.domain.Reservation;
 import com.agrokaszuby.front.agrokaszubyfront.domain.ReservationForm;
+import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.Currency;
 import com.agrokaszuby.front.agrokaszubyfront.domain.weather.WeatherDTO;
 import com.agrokaszuby.front.agrokaszubyfront.service.PriceService;
 import com.agrokaszuby.front.agrokaszubyfront.service.WeatherService;
@@ -34,7 +35,7 @@ public class MainView extends VerticalLayout {
         grid.setColumns("date", "maxTemperature");
 
         addReservation.addClickListener(e -> {
-            form.setReservation(new Reservation());
+            form.setReservation(Reservation.builder().currency(Currency.PLN).build());
         });
 
         HorizontalLayout toolbar = new HorizontalLayout(addReservation);
