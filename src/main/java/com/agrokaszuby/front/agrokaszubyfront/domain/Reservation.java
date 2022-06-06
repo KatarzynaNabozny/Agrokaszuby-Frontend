@@ -1,8 +1,10 @@
 package com.agrokaszuby.front.agrokaszubyfront.domain;
 
 
+import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.Currency;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -22,5 +24,7 @@ public class Reservation {
     private String postalCode;
     private String street;
     private String email;
+    private Currency currency;
+    private BigDecimal price;
 
 }
