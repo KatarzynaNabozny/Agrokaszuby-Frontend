@@ -14,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ErrorLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +59,10 @@ public class ReservationForm extends FormLayout {
         this.priceService = priceService;
         currency.setItems(Currency.values());
         price.setEnabled(false);
+        price.getElement().getStyle().set("color", "red");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        save.setEnabled(false);
+        delete.setEnabled(false);
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
 
         startDate = getDateTimePicker("Beginning of reservation");
@@ -69,6 +73,7 @@ public class ReservationForm extends FormLayout {
 
         startDate.setRequiredIndicatorVisible(true);
         endDate.setRequiredIndicatorVisible(true);
+        endDate.setHelperText("Must be after Beginning of reservation");
         email.setRequired(true);
         currency.setRequired(true);
 
@@ -77,9 +82,22 @@ public class ReservationForm extends FormLayout {
 
         save.addClickListener(event -> save());
         delete.addClickListener(event -> delete());
-        currency.addValueChangeListener(event -> updatePriceIfNeeded());
-        startDate.addValueChangeListener(event -> updatePriceIfNeeded());
-        endDate.addValueChangeListener(event -> updatePriceIfNeeded());
+        currency.addValueChangeListener(event -> updatePriceIfNeeded(binder.getBean()));
+        startDate.addValueChangeListener(event -> updatePriceIfNeeded(binder.getBean()));
+        endDate.addValueChangeListener(event -> updatePriceIfNeeded(binder.getBean()));
+
+        email.addValueChangeListener(event -> isReadyToSave(binder.getBean()));
+
+
+    }
+
+    private Binder.BindingBuilder<Reservation, String> validateEmptyTextField(
+            String errorMessage, TextField textField) {
+        return binder.forField(textField)
+                .withValidator(e -> {
+                    textField.addClassName("warn");
+                    return e.equals("") || e != null;
+                }, errorMessage, ErrorLevel.WARNING);
     }
 
     private DateTimePicker getDateTimePicker(String caption) {
@@ -103,25 +121,101 @@ public class ReservationForm extends FormLayout {
 
     private void save() {
         Reservation reservation = binder.getBean();
-        if (reservation.getStartDate() != null &&
-                reservation.getEndDate() != null &&
-                reservation.getEmail() != null &&
-                reservation.getCurrency() != null &&
-                reservation.getPrice() != null) {
+        if (isReadyToSave(reservation)) {
             service.saveReservation(reservation);
             setReservation(null);
+            save.setEnabled(false);
         }
     }
 
-    private void updatePriceIfNeeded() {
-        Reservation reservation = binder.getBean();
+    private boolean isReadyToSave(Reservation reservation) {
+        if (isReadyToDelete(reservation) &&
+                reservation.getCurrency() != null &&
+                reservation.getPrice() != null
+        ) {
+            save.setEnabled(true);
+            return true;
+        } else {
+            save.setEnabled(false);
+            return false;
+        }
+    }
+
+    private boolean isReadyToDelete(Reservation reservation) {
+        if (reservation.getStartDate() != null &&
+                reservation.getEndDate() != null &&
+                isValidEmail(reservation) &&
+                isEndDateAfterStartDate(reservation)
+        ) {
+            delete.setEnabled(true);
+            return true;
+        } else {
+            delete.setEnabled(false);
+            return false;
+        }
+    }
+
+    private boolean isValidEmail(Reservation reservation) {
+        String emailValue = reservation.getEmail();
+        if (emailValue != null && !emailValue.isEmpty()) {
+            return true;
+        } else {
+            validateEmptyTextField("e-mail is required", this.email)
+                    .bind(Reservation::getEmail, Reservation::setEmail);
+            return false;
+        }
+    }
+
+    private boolean isReadyToUpdatePrice(Reservation reservation) {
+        if (reservation.getStartDate() != null &&
+                reservation.getEndDate() != null &&
+                reservation.getCurrency() != null &&
+                isEndDateAfterStartDate(reservation)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isEndDateAfterStartDate(Reservation reservation) {
+        LocalDateTime endDate = reservation.getEndDate();
+        LocalDateTime startDate = reservation.getStartDate();
+
+        if (startDate == null || endDate == null) {
+            return false;
+        } else if (endDate.isAfter(startDate)) {
+            return true;
+        } else {
+            binder.forField(this.startDate)
+                    .withValidator(start -> {
+                        if (start != null) {
+                            return start.isBefore(endDate);
+                        } else {
+                            return false;
+                        }
+                    }, "Start date should be before end date of reservation")
+                    .bind(Reservation::getStartDate, Reservation::setStartDate);
+
+            binder.forField(this.endDate)
+                    .withValidator(end -> {
+                        if (end != null) {
+                            return end.isAfter(startDate);
+                        } else {
+                            return false;
+                        }
+                    }, "End date should be after start date of reservation")
+                    .bind(Reservation::getEndDate, Reservation::setEndDate);
+            return false;
+        }
+    }
+
+    private void updatePriceIfNeeded(Reservation reservation) {
         if (reservation != null) {
-            Currency currency = reservation.getCurrency();
-            LocalDateTime startDate = reservation.getStartDate();
-            LocalDateTime endDate = reservation.getEndDate();
-            if (currency != null && startDate != null && endDate != null) {
+            if (isReadyToUpdatePrice(reservation)) {
                 updatePrice(reservation);
             }
+            isReadyToSave(reservation);
         }
     }
 

@@ -40,7 +40,7 @@ public class MainView extends VerticalLayout {
 
         HorizontalLayout toolbar = new HorizontalLayout(addReservation);
         HorizontalLayout mainContent = new HorizontalLayout(grid, form);
-        grid.setWidth("400px");
+        grid.setWidth("440px");
 
         add(toolbar, mainContent);
         form.setReservation(null);
