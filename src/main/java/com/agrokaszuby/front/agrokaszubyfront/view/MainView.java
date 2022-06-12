@@ -35,7 +35,7 @@ public class MainView extends VerticalLayout {
         grid.setColumns("date", "maxTemperature");
 
         addReservation.addClickListener(e -> {
-            form.setReservation(Reservation.builder().currency(Currency.PLN).build());
+            form.setReservation(new Reservation.ReservationBuilder().withCurrency(Currency.PLN).build());
         });
 
         HorizontalLayout toolbar = new HorizontalLayout(addReservation);
