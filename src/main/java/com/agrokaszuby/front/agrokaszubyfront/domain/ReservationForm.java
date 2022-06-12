@@ -142,7 +142,8 @@ public class ReservationForm extends FormLayout {
     }
 
     private boolean isReadyToDelete(Reservation reservation) {
-        if (reservation.getStartDate() != null &&
+        if (reservation != null &&
+                reservation.getStartDate() != null &&
                 reservation.getEndDate() != null &&
                 isValidEmail(reservation) &&
                 isEndDateAfterStartDate(reservation)
