@@ -11,6 +11,7 @@
 * **F8** - Application instruction
 * **F9** - Currency exchange REST API
 * **F10** - Question feature
+* **F11** - Comment feature
 
 #### GitHub repo
 
