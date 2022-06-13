@@ -51,6 +51,7 @@ public class ReservationForm extends FormLayout {
 
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
+    private Button back = new Button("Back");
 
     private Binder<Reservation> binder = new Binder<>(Reservation.class);
 
@@ -63,7 +64,7 @@ public class ReservationForm extends FormLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.setEnabled(false);
         delete.setEnabled(false);
-        HorizontalLayout buttons = new HorizontalLayout(save, delete);
+        HorizontalLayout buttons = new HorizontalLayout(save, delete, back);
 
         startDate = getDateTimePicker("Beginning of reservation");
         endDate = getDateTimePicker("End of reservation");
@@ -82,13 +83,17 @@ public class ReservationForm extends FormLayout {
 
         save.addClickListener(event -> save());
         delete.addClickListener(event -> delete());
+        back.addClickListener(event -> back());
         currency.addValueChangeListener(event -> updatePriceIfNeeded(binder.getBean()));
         startDate.addValueChangeListener(event -> updatePriceIfNeeded(binder.getBean()));
         endDate.addValueChangeListener(event -> updatePriceIfNeeded(binder.getBean()));
 
         email.addValueChangeListener(event -> isReadyToSave(binder.getBean()));
 
+    }
 
+    private void back() {
+        setReservation(null);
     }
 
     private Binder.BindingBuilder<Reservation, String> validateEmptyTextField(

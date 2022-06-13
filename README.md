@@ -10,6 +10,7 @@
 * **F7** - [Backend] Scheduler - sending email with all reservations each day
 * **F8** - Application instruction
 * **F9** - Currency exchange REST API
+* **F10** - Question feature
 
 #### GitHub repo
 
