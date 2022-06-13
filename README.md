@@ -10,8 +10,7 @@
 * **F7** - [Backend] Scheduler - sending email with all reservations each day
 * **F8** - Application instruction
 
-#### GitHub repos
-* Backend: https://github.com/KatarzynaNabozny/Agrokaszuby-Backend
+#### GitHub repo
 
 ------
 * Frontend: https://github.com/KatarzynaNabozny/Agrokaszuby-Frontend
@@ -20,7 +19,7 @@ Port: http://localhost:8080/
 
 ##### To run Frontend you need to run **AgrokaszubyFrontApplication.java**
 
-## API (2. Data download - F3, F4)
+## 2. API (Data download - F3, F4)
 ### Currency
 GET: https://openexchangerates.org/api/latest.json?app_id=bdf9664efe044ad1b1821463563b756d&symbols=PLN \
 This is used in CurrencyExchangeService.java. \
@@ -36,6 +35,17 @@ To display one week forecast (in °C) for Destination of Hotel Agrokaszuby on ma
 
 ![img.png](src/main/resources/static/weather_forecast.png)
 
-##Design patterns
+## 6. Design patterns (F6, F3)
+* Builder - Reservation  (F6)
+* Singleton - WeatherService (F3), ReservationService (F2)
 
-Reservation Builder F6
+## 7. View Layer in Vaadin (F5)
+There are views:
+* Main view - From this view you can go to reserve a hotel -MainView.java
+* Reservation view - You can make a reservation or delete it -ReservationForm.java
+
+#### GitHub repo
+
+------
+* Backend: https://github.com/KatarzynaNabozny/Agrokaszuby-Backend
+------
