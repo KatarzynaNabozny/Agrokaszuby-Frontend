@@ -9,6 +9,7 @@
 * **F6** - Design patterns
 * **F7** - [Backend] Scheduler - sending email with all reservations each day
 * **F8** - Application instruction
+* **F9** - Currency exchange REST API
 
 #### GitHub repo
 
@@ -34,6 +35,14 @@ GET: https://api.openweathermap.org/data/2.5/onecall?lat=54.45169&lon=18.21428&a
 To display one week forecast (in °C) for Destination of Hotel Agrokaszuby on main view as a table:
 
 ![img.png](src/main/resources/static/weather_forecast.png)
+
+## 4. Data base saving 
+1. Saving Reservation - when press save on reservation form. This is saved in RESERVATION table
+2. Saving Customer - when press save on reservation form. This is saved in CUSTOMER table
+3. Removing reservation - when pres delete on reservation form \
+needed to provide email, start ane end date. This is removed from RESERVATION table
+4. Saving currency exchange when changing currency for USD in Reservation form. \
+Then PriceService invokes CurrencyExchangeService. This is saved in CURRENCY_EXCHANGE table
 
 ## 6. Design patterns (F6, F3)
 * Builder - Reservation  (F6)

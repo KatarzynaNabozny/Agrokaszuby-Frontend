@@ -1,7 +1,7 @@
 package com.agrokaszuby.front.agrokaszubyfront.service;
 
 import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.Currency;
-import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.CurrencyDTO;
+import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.CurrencyExchangeDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,7 +36,7 @@ class PriceServiceTest {
     @Test
     void getPrice_shouldCalculateCorrectUSDPrice() {
         //GIVEN
-        CurrencyDTO currencyDTO = CurrencyDTO.builder().rate(BigDecimal.valueOf(0.23)).build();
+        CurrencyExchangeDTO currencyDTO = CurrencyExchangeDTO.builder().rate(BigDecimal.valueOf(0.23)).build();
         given(currencyExchangeService.getExchangeRatePLNtoUSD()).willReturn(currencyDTO);
         //WHEN
         BigDecimal actualPrice = priceService.getPrice(LocalDateTime.now(), LocalDateTime.now().plusDays(2), Currency.USD);

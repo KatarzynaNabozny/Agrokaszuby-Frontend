@@ -4,7 +4,7 @@ import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.Currency;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,21 +24,21 @@ class CurrencyExchangeServiceTest {
     }
 
     @Test
-    public void shouldGetTimeStamp() {
+    public void shouldGetDate() {
         //GIVEN
         //WHEN
-        LocalDateTime actualTimeStamp = currencyExchangeService.getExchangeRatePLNtoUSD().getTimeStamp();
+        LocalDate actualTimeStamp = currencyExchangeService.getExchangeRatePLNtoUSD().getDate();
         //THEN
         assertNotNull(actualTimeStamp);
     }
 
     @Test
-    public void shouldGetUSDBase() {
+    public void shouldGetUSDToCurrency() {
         //GIVEN
         //WHEN
-        Currency actualBaseCurrency = currencyExchangeService.getExchangeRatePLNtoUSD().getBase();
+        String actualBaseCurrency = currencyExchangeService.getExchangeRatePLNtoUSD().getToCurrency();
         //THEN
-        assertEquals(Currency.USD, actualBaseCurrency);
+        assertEquals(Currency.USD.name(), actualBaseCurrency);
     }
 
 }
