@@ -3,6 +3,7 @@ package com.agrokaszuby.front.agrokaszubyfront.view;
 import com.agrokaszuby.front.agrokaszubyfront.domain.*;
 import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.Currency;
 import com.agrokaszuby.front.agrokaszubyfront.domain.weather.WeatherDTO;
+import com.agrokaszuby.front.agrokaszubyfront.service.CommentService;
 import com.agrokaszuby.front.agrokaszubyfront.service.PriceService;
 import com.agrokaszuby.front.agrokaszubyfront.service.WeatherService;
 import com.vaadin.flow.component.button.Button;
@@ -22,23 +23,22 @@ import java.time.LocalDateTime;
 public class MainView extends VerticalLayout {
 
     private WeatherService weatherService = WeatherService.getInstance();
+
     private Grid<WeatherDTO> grid = new Grid<>(WeatherDTO.class);
 
     private Button addReservation = new Button("Reservation");
     private Button question = new Button("Question");
     private Button comment = new Button("Leave a comment");
 
-    private PriceService priceService;
     private ReservationForm form;
     private QuestionForm questionForm;
     private CommentForm commentForm;
 
     @Autowired
-    public MainView(PriceService priceService) {
-        this.priceService = priceService;
+    public MainView(CommentService commentService, PriceService priceService) {
         this.form = new ReservationForm(priceService, this);
         this.questionForm = new QuestionForm(this);
-        this.commentForm = new CommentForm(this);
+        this.commentForm = new CommentForm(commentService, this);
 
         grid.setColumns("date", "maxTemperature");
 

@@ -45,7 +45,9 @@ To display one week forecast (in °C) for Destination of Hotel Agrokaszuby on ma
 needed to provide email, start ane end date. This is removed from RESERVATION table
 4. Saving currency exchange when changing currency for USD in Reservation form. \
 Then PriceService invokes CurrencyExchangeService. This is saved in CURRENCY_EXCHANGE table
-
+5. Saving comment on 'Leave a comment' form, when pressing Send button. This is saved to COMMENT table 
+6. Removing comment on 'Leave a comment' form, when pressing Rollback button. This is removed from COMMENT table \
+   needed to provide email and subject.
 ## 6. Design patterns (F6, F3)
 * Builder - Reservation  (F6)
 * Singleton - WeatherService (F3), ReservationService (F2)

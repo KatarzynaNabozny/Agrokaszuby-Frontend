@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 public class Comment {
-    private String from;
+    private Long commentId;
+    private String fromName;
     private String email;
     private String content;
     private String subject;

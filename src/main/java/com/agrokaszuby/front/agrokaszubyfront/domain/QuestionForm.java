@@ -30,13 +30,13 @@ public class QuestionForm extends FormLayout {
 
     public QuestionForm(MainView mainView) {
 
-        content.setLabel("Comment");
+        content.setLabel("Question");
         content.setMaxLength(CHAR_LIMIT);
         content.setValueChangeMode(ValueChangeMode.EAGER);
         content.addValueChangeListener(e -> {
             e.getSource().setHelperText(e.getValue().length() + "/" + CHAR_LIMIT);
         });
-        content.setValue("Here you can ask your question");
+        content.setPlaceholder("Here you can ask your question");
 
         send.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         HorizontalLayout buttons = new HorizontalLayout(send, rollback, back);
