@@ -13,6 +13,7 @@
 * **F10** - Question feature
 * **F11** - Comment feature
 * **F12** - Comment Log feature
+* **F13** - Question Log feature
 
 #### GitHub repo
 
@@ -53,6 +54,7 @@ Then PriceService invokes CurrencyExchangeService. This is saved in CURRENCY_EXC
 8. Removing question on 'Question' form, when pressing Rollback button. This is removed from QUESTION table \
    needed to provide email and subject.
 9. Saving Comment Log information when user will press save or rollback. This is saved in COMMENT_LOG table
+10. Saving Question Log information when user will press save or rollback. This is saved in QUESTION_LOG table
 
 
 ## 6. Design patterns (F6, F3)

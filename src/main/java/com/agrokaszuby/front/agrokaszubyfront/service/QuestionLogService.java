@@ -1,6 +1,6 @@
 package com.agrokaszuby.front.agrokaszubyfront.service;
 
-import com.agrokaszuby.front.agrokaszubyfront.domain.CommentLog;
+import com.agrokaszuby.front.agrokaszubyfront.domain.QuestionLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
@@ -12,34 +12,34 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class CommentLogService {
+public class QuestionLogService {
 
     private RestTemplate restTemplate;
     private HttpHeaders headers;
-    private final String commentLogUrl = "http://localhost:8090/agrokaszuby/backend/comment_log";
+    private final String questionLogUrl = "http://localhost:8090/agrokaszuby/backend/question_log";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    
-    public void save(CommentLog commentLog) {
+
+    public void save(QuestionLog questionLog) {
         restTemplate = new RestTemplate();
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         objectMapper.findAndRegisterModules();
-        String commentLogInString = null;
+        String questionLogInString = null;
         try {
-            commentLogInString = objectMapper.writeValueAsString(commentLog);
+            questionLogInString = objectMapper.writeValueAsString(questionLog);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        HttpEntity<String> request = new HttpEntity<>(commentLogInString, headers);
-        ResponseEntity<CommentLog> commentLogResponseEntity = null;
+        HttpEntity<String> request = new HttpEntity<>(questionLogInString, headers);
+        ResponseEntity<QuestionLog> questionLogResponseEntity = null;
         try {
-            commentLogResponseEntity = restTemplate.postForEntity(commentLogUrl, request, CommentLog.class);
+            questionLogResponseEntity = restTemplate.postForEntity(questionLogUrl, request, QuestionLog.class);
         } catch (RestClientException e) {
             e.printStackTrace();
         }
-        
+
     }
 }
