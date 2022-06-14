@@ -1,8 +1,11 @@
 package com.agrokaszuby.front.agrokaszubyfront.service;
 
 import com.agrokaszuby.front.agrokaszubyfront.domain.Reservation;
+import com.agrokaszuby.front.agrokaszubyfront.domain.ReservationLog;
+import com.agrokaszuby.front.agrokaszubyfront.domain.Reservation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,10 +24,13 @@ public class ReservationService {
     private HttpHeaders headers;
     private final String reservationUrl = "http://localhost:8090/agrokaszuby/backend/reservation";
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private  ReservationLogService reservationLogService;
 
+    
     private ReservationService() {
+        this.reservationLogService = new ReservationLogService();
     }
-
+    
     public static ReservationService getInstance() {
         if (reservationService == null) {
             reservationService = new ReservationService();
@@ -52,9 +58,13 @@ public class ReservationService {
         } catch (RestClientException e) {
             e.printStackTrace();
         }
+        
+        ReservationLog reservationLog = getReservationLog(reservation.getEmail(), isSuccessful(reservationResponseEntity), "SAVE");
+        reservationLogService.save(reservationLog);
     }
 
     public void delete(Reservation reservation) {
+        Boolean isSuccessful = Boolean.FALSE;
         if (reservation != null) {
             String email = reservation.getEmail();
             LocalDateTime startDate = reservation.getStartDate();
@@ -65,10 +75,33 @@ public class ReservationService {
                 try {
                     String deleteUrl = reservationUrl + "?email=" + email + "&startDate=" + startDate + "&endDate=" + endDate;
                     restTemplate.delete(deleteUrl);
+                    isSuccessful = Boolean.TRUE;
                 } catch (RestClientException e) {
+                    isSuccessful = Boolean.FALSE;
                     e.printStackTrace();
                 }
             }
         }
+        ReservationLog reservationLog = getReservationLog(reservation.getEmail(), isSuccessful, "DELETE");
+        reservationLogService.save(reservationLog);
+    }
+
+    private ReservationLog getReservationLog(String email, Boolean successful, String event) {
+        return ReservationLog.builder()
+                .email(email)
+                .event(event)
+                .successful(successful)
+                .date(LocalDateTime.now())
+                .build();
+    }
+
+    private Boolean isSuccessful(ResponseEntity<Reservation> reservationResponseEntity) {
+        Boolean successful;
+        if (reservationResponseEntity != null) {
+            successful = Boolean.TRUE;
+        } else {
+            successful = Boolean.FALSE;
+        }
+        return successful;
     }
 }
