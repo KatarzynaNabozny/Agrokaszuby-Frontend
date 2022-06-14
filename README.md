@@ -12,6 +12,7 @@
 * **F9** - Currency exchange REST API
 * **F10** - Question feature
 * **F11** - Comment feature
+* **F12** - Comment Log feature
 
 #### GitHub repo
 
@@ -51,6 +52,7 @@ Then PriceService invokes CurrencyExchangeService. This is saved in CURRENCY_EXC
 7. Saving question on 'Question' form, when pressing Send button. This is saved to QUESTION table
 8. Removing question on 'Question' form, when pressing Rollback button. This is removed from QUESTION table \
    needed to provide email and subject.
+9. Saving Comment Log information when user will press save or rollback. This is saved in COMMENT_LOG table
 
 
 ## 6. Design patterns (F6, F3)
