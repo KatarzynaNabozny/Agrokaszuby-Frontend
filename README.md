@@ -48,6 +48,11 @@ Then PriceService invokes CurrencyExchangeService. This is saved in CURRENCY_EXC
 5. Saving comment on 'Leave a comment' form, when pressing Send button. This is saved to COMMENT table 
 6. Removing comment on 'Leave a comment' form, when pressing Rollback button. This is removed from COMMENT table \
    needed to provide email and subject.
+7. Saving question on 'Question' form, when pressing Send button. This is saved to QUESTION table
+8. Removing question on 'Question' form, when pressing Rollback button. This is removed from QUESTION table \
+   needed to provide email and subject.
+
+
 ## 6. Design patterns (F6, F3)
 * Builder - Reservation  (F6)
 * Singleton - WeatherService (F3), ReservationService (F2)

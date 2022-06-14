@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 public class Question {
-    private String from;
+    private Long questionId;
+    private String fromName;
     private String email;
     private String content;
     private String subject;

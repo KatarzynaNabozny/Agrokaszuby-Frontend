@@ -1,5 +1,6 @@
 package com.agrokaszuby.front.agrokaszubyfront.domain;
 
+import com.agrokaszuby.front.agrokaszubyfront.service.QuestionService;
 import com.agrokaszuby.front.agrokaszubyfront.view.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -15,11 +16,11 @@ import org.springframework.stereotype.Component;
 public class QuestionForm extends FormLayout {
 
     private final int CHAR_LIMIT = 350;
-    private Binder<Question> binder = new Binder<>(Question.class);
-
+    private QuestionService service;
+    
     private MainView mainView;
 
-    private TextField from = new TextField("Your name");
+    private TextField fromName = new TextField("Your name");
     private TextField subject = new TextField("Subject");
     private TextField email = new TextField("E-mail");
     private TextArea content = new TextArea("Content");
@@ -28,8 +29,10 @@ public class QuestionForm extends FormLayout {
     private Button rollback = new Button("Rollback");
     private Button back = new Button("Back");
 
-    public QuestionForm(MainView mainView) {
+    private Binder<Question> binder = new Binder<>(Question.class);
 
+    public QuestionForm(QuestionService service, MainView mainView) {
+        this.service = service;
         content.setLabel("Question");
         content.setMaxLength(CHAR_LIMIT);
         content.setValueChangeMode(ValueChangeMode.EAGER);
@@ -41,8 +44,13 @@ public class QuestionForm extends FormLayout {
         send.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         HorizontalLayout buttons = new HorizontalLayout(send, rollback, back);
 
-        add(from, email, subject, content, buttons);
+        add(fromName, email, subject, content, buttons);
         setSizeFull();
+        
+        email.setRequired(true);
+        subject.setRequired(true);
+        
+        binder.bindInstanceFields(this);
         this.mainView = mainView;
 
         send.addClickListener(event -> save());
@@ -55,13 +63,16 @@ public class QuestionForm extends FormLayout {
     }
 
     private void delete() {
+        Question Question = binder.getBean();
+        service.deleteQuestion(Question);
         setQuestion(null);
     }
 
     private void save() {
+        Question Question = binder.getBean();
+        service.saveQuestion(Question);
         setQuestion(null);
     }
-
 
     public void setQuestion(Question question) {
         binder.setBean(question);
@@ -69,7 +80,7 @@ public class QuestionForm extends FormLayout {
             setVisible(false);
         } else {
             setVisible(true);
-            from.focus();
+            fromName.focus();
         }
     }
 }

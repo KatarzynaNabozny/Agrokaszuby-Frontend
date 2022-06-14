@@ -5,6 +5,7 @@ import com.agrokaszuby.front.agrokaszubyfront.domain.currencyexchange.Currency;
 import com.agrokaszuby.front.agrokaszubyfront.domain.weather.WeatherDTO;
 import com.agrokaszuby.front.agrokaszubyfront.service.CommentService;
 import com.agrokaszuby.front.agrokaszubyfront.service.PriceService;
+import com.agrokaszuby.front.agrokaszubyfront.service.QuestionService;
 import com.agrokaszuby.front.agrokaszubyfront.service.WeatherService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -35,9 +36,9 @@ public class MainView extends VerticalLayout {
     private CommentForm commentForm;
 
     @Autowired
-    public MainView(CommentService commentService, PriceService priceService) {
+    public MainView(QuestionService questionService, CommentService commentService, PriceService priceService) {
         this.form = new ReservationForm(priceService, this);
-        this.questionForm = new QuestionForm(this);
+        this.questionForm = new QuestionForm(questionService, this);
         this.commentForm = new CommentForm(commentService, this);
 
         grid.setColumns("date", "maxTemperature");
