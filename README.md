@@ -15,6 +15,7 @@
 * **F12** - Comment Log feature
 * **F13** - Question Log feature
 * **F14** - Reservation Log feature
+* **F15** - Test coverage
 
 #### GitHub repo
 
@@ -58,6 +59,8 @@ Then PriceService invokes CurrencyExchangeService. This is saved in CURRENCY_EXC
 10. Saving Question Log information when user will press save or rollback. This is saved in QUESTION_LOG table
 11. Saving Reservation Log information when user will press save or delete. This is saved in RESERVATION_LOG table
 
+## 5. TESTS - Coverage 65% (F15)
+![img.png](src/main/resources/static/test_coverage.png)
 
 ## 6. Design patterns (F6, F3)
 * Builder - Reservation  (F6)

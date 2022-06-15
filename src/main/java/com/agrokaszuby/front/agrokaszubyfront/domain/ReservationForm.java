@@ -92,7 +92,7 @@ public class ReservationForm extends FormLayout {
 
     }
 
-    private void back() {
+    protected void back() {
         setReservation(null);
     }
 
@@ -105,7 +105,7 @@ public class ReservationForm extends FormLayout {
                 }, errorMessage, ErrorLevel.WARNING);
     }
 
-    private DateTimePicker getDateTimePicker(String caption) {
+    protected DateTimePicker getDateTimePicker(String caption) {
         DateTimePicker picker = new DateTimePicker();
         picker.setLabel(caption);
 
@@ -116,7 +116,7 @@ public class ReservationForm extends FormLayout {
         return picker;
     }
 
-    private String getStartOrNextMonthIsoString() {
+    protected String getStartOrNextMonthIsoString() {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
         LocalDate startOfNextMonth = LocalDate.now(ZoneId.systemDefault())
                 .with(TemporalAdjusters.firstDayOfNextMonth());
@@ -124,7 +124,7 @@ public class ReservationForm extends FormLayout {
         return formatter.format(startOfNextMonth);
     }
 
-    private void save() {
+    protected void save() {
         Reservation reservation = binder.getBean();
         if (isReadyToSave(reservation)) {
             service.saveReservation(reservation);
@@ -133,7 +133,7 @@ public class ReservationForm extends FormLayout {
         }
     }
 
-    private boolean isReadyToSave(Reservation reservation) {
+    protected boolean isReadyToSave(Reservation reservation) {
         if (isReadyToDelete(reservation) &&
                 reservation.getCurrency() != null &&
                 reservation.getPrice() != null
@@ -146,7 +146,7 @@ public class ReservationForm extends FormLayout {
         }
     }
 
-    private boolean isReadyToDelete(Reservation reservation) {
+    protected boolean isReadyToDelete(Reservation reservation) {
         if (reservation != null &&
                 reservation.getStartDate() != null &&
                 reservation.getEndDate() != null &&
@@ -161,7 +161,7 @@ public class ReservationForm extends FormLayout {
         }
     }
 
-    private boolean isValidEmail(Reservation reservation) {
+    protected boolean isValidEmail(Reservation reservation) {
         String emailValue = reservation.getEmail();
         if (emailValue != null && !emailValue.isEmpty()) {
             return true;
@@ -172,7 +172,7 @@ public class ReservationForm extends FormLayout {
         }
     }
 
-    private boolean isReadyToUpdatePrice(Reservation reservation) {
+    protected boolean isReadyToUpdatePrice(Reservation reservation) {
         if (reservation.getStartDate() != null &&
                 reservation.getEndDate() != null &&
                 reservation.getCurrency() != null &&
@@ -184,7 +184,7 @@ public class ReservationForm extends FormLayout {
         }
     }
 
-    private boolean isEndDateAfterStartDate(Reservation reservation) {
+    protected boolean isEndDateAfterStartDate(Reservation reservation) {
         LocalDateTime endDate = reservation.getEndDate();
         LocalDateTime startDate = reservation.getStartDate();
 
@@ -216,7 +216,7 @@ public class ReservationForm extends FormLayout {
         }
     }
 
-    private void updatePriceIfNeeded(Reservation reservation) {
+    protected void updatePriceIfNeeded(Reservation reservation) {
         if (reservation != null) {
             if (isReadyToUpdatePrice(reservation)) {
                 updatePrice(reservation);
@@ -225,13 +225,13 @@ public class ReservationForm extends FormLayout {
         }
     }
 
-    private void updatePrice(Reservation reservation) {
+    protected void updatePrice(Reservation reservation) {
         BigDecimal price = priceService.getPrice(reservation.getStartDate(), reservation.getEndDate(), reservation.getCurrency());
         reservation.setPrice(price.setScale(2, BigDecimal.ROUND_HALF_UP));
         binder.setBean(reservation);
     }
 
-    private void delete() {
+    protected void delete() {
         Reservation reservation = binder.getBean();
         service.delete(reservation);
         setReservation(null);

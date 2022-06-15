@@ -44,4 +44,44 @@ class PriceServiceTest {
         BigDecimal expectedPrice = new BigDecimal(92);
         assertEquals(expectedPrice.setScale(2), actualPrice);
     }
+
+    @Test
+    void getUSDPricePerDay() {
+        //GIVEN
+        //WHEN
+        BigDecimal actualPrice = priceService.getUSDPricePerDay();
+        //THEN
+        BigDecimal expectedPrice = null;
+        assertEquals(expectedPrice, actualPrice);
+    }
+
+    @Test
+    void getPLNPricePerDay() {
+        //GIVEN
+        //WHEN
+        BigDecimal actualPrice = priceService.getPLNPricePerDay();
+        //THEN
+        BigDecimal expectedPrice = BigDecimal.valueOf(200);
+        assertEquals(expectedPrice, actualPrice);
+    }
+
+    @Test
+    void setPLNPrice() {
+        //GIVEN
+        //WHEN
+        priceService.setPLNPrice(BigDecimal.valueOf(250));
+        //THEN
+        BigDecimal expectedPrice = BigDecimal.valueOf(250);
+        assertEquals(expectedPrice, priceService.getPLNPricePerDay());
+    }
+
+    @Test
+    void setUSDPrice() {
+        //GIVEN
+        //WHEN
+        priceService.setUSDPrice(BigDecimal.valueOf(50));
+        //THEN
+        BigDecimal expectedPrice = BigDecimal.valueOf(50);
+        assertEquals(expectedPrice, priceService.getUSDPricePerDay());
+    }
 }

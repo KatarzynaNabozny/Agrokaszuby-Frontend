@@ -3,6 +3,7 @@ package com.agrokaszuby.front.agrokaszubyfront.service;
 import com.agrokaszuby.front.agrokaszubyfront.domain.CommentLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,18 +15,20 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class CommentLogService {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
     private HttpHeaders headers;
     private final String commentLogUrl = "http://localhost:8090/agrokaszuby/backend/comment_log";
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    
-    public void save(CommentLog commentLog) {
-        restTemplate = new RestTemplate();
-        headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        objectMapper.findAndRegisterModules();
+    @Autowired
+    public CommentLogService(RestTemplate restTemplate, ObjectMapper objectMapper, HttpHeaders headers) {
+        this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
+        this.headers = headers;
+    }
+
+    public void save(CommentLog commentLog) {
         String commentLogInString = null;
         try {
             commentLogInString = objectMapper.writeValueAsString(commentLog);
@@ -33,13 +36,22 @@ public class CommentLogService {
             e.printStackTrace();
         }
 
-        HttpEntity<String> request = new HttpEntity<>(commentLogInString, headers);
         ResponseEntity<CommentLog> commentLogResponseEntity = null;
         try {
-            commentLogResponseEntity = restTemplate.postForEntity(commentLogUrl, request, CommentLog.class);
+            commentLogResponseEntity = restTemplate.postForEntity(commentLogUrl, getRequest(commentLogInString), CommentLog.class);
         } catch (RestClientException e) {
             e.printStackTrace();
         }
         
+    }
+
+    protected HttpEntity<String> getRequest(String objectInString) {
+        if(headers == null || headers.getContentType() == null){
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            headers = httpHeaders;
+        }
+
+        return new HttpEntity<>(objectInString, headers);
     }
 }

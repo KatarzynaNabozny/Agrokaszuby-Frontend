@@ -60,17 +60,17 @@ public class CommentForm extends FormLayout {
         back.addClickListener(event -> back());
     }
 
-    private void back() {
+    void back() {
         setComment(null);
     }
 
-    private void delete() {
+    void delete() {
         Comment comment = binder.getBean();
         service.deleteComment(comment);
         setComment(null);
     }
 
-    private void save() {
+    void save() {
         Comment comment = binder.getBean();
         service.saveComment(comment);
         setComment(null);

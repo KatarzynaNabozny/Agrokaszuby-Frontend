@@ -23,14 +23,20 @@ public class ReservationService {
     private RestTemplate restTemplate;
     private HttpHeaders headers;
     private final String reservationUrl = "http://localhost:8090/agrokaszuby/backend/reservation";
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private  ReservationLogService reservationLogService;
+    private ObjectMapper objectMapper;
+    private ReservationLogService reservationLogService;
 
-    
     private ReservationService() {
-        this.reservationLogService = new ReservationLogService();
+        this.restTemplate = new RestTemplate();
+        this.objectMapper = new ObjectMapper();
+        this.objectMapper.findAndRegisterModules();
+        this.headers = new HttpHeaders();
+        this.headers.setContentType(MediaType.APPLICATION_JSON);
+
+        this.reservationLogService = new ReservationLogService(
+                restTemplate, objectMapper, headers);
     }
-    
+
     public static ReservationService getInstance() {
         if (reservationService == null) {
             reservationService = new ReservationService();
@@ -39,11 +45,6 @@ public class ReservationService {
     }
 
     public void saveReservation(Reservation reservation) {
-        restTemplate = new RestTemplate();
-        headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        objectMapper.findAndRegisterModules();
         String reservationInString = null;
         try {
             reservationInString = objectMapper.writeValueAsString(reservation);
@@ -58,7 +59,7 @@ public class ReservationService {
         } catch (RestClientException e) {
             e.printStackTrace();
         }
-        
+
         ReservationLog reservationLog = getReservationLog(reservation.getEmail(), isSuccessful(reservationResponseEntity), "SAVE");
         reservationLogService.save(reservationLog);
     }

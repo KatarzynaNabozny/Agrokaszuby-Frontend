@@ -58,17 +58,17 @@ public class QuestionForm extends FormLayout {
         back.addClickListener(event -> back());
     }
 
-    private void back() {
+    protected void back() {
         setQuestion(null);
     }
 
-    private void delete() {
+    protected void delete() {
         Question Question = binder.getBean();
         service.deleteQuestion(Question);
         setQuestion(null);
     }
 
-    private void save() {
+    protected void save() {
         Question Question = binder.getBean();
         service.saveQuestion(Question);
         setQuestion(null);
