@@ -76,3 +76,12 @@ There are views:
 ------
 * Backend: https://github.com/KatarzynaNabozny/Agrokaszuby-Backend
 ------
+
+### KODILLA INFO
+
+![img_1.png](src/main/resources/static/kodilla_info.png)
+* date: 15.06.2022 \
+Last commit on Frontend:
+ee39d713d4c1c7b8849960a90342bc730643f32e \
+Last commit on Backend:
+cf62f280f73f6e3a08bef2109f4f5e3d60b579e5
